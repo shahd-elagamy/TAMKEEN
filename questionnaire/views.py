@@ -213,3 +213,5 @@ def submit_answers(request):
 # class AnswerViewSet(viewsets.ModelViewSet):
 #     queryset = Answer.objects.all()  # تحديد الـ queryset
 #     serializer_class = AnswerSerializer
+       def perform_create(self, serializer):
+            serializer.save()
