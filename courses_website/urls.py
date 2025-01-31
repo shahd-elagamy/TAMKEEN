@@ -1,0 +1,38 @@
+# courses_website/urls.py
+from django.contrib import admin
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from home import views as home_views
+from users import views as user_views  # إضافة views الخاصة بـ users
+# from questionnaire.views import QuestionSerializer,AnswerSerializer
+from users.views import signup
+from questionnaire.views import questionnaire_view
+from django.conf import settings
+from django.conf.urls.static import static
+# from roadmap.views import AnswerViewSet
+from courses.views import PlaylistViewSet
+
+
+# Create a router for API viewsets
+router = DefaultRouter()
+# تسجيل UserViewSet و QuestionViewSet في الـ router
+# router.register(r'users', user_views.UserViewSet)
+# router.register(r'questions', QuestionSerializer)
+# router.register(r'answers',AnswerSerializer)
+router.register(r'playlist',PlaylistViewSet)
+urlpatterns = [
+    path('admin/', admin.site.urls),  # لوحة إدارة Django
+    path('', home_views.homepage, name='homepage'),  # الصفحة الرئيسية للموقع
+    path('courses/', include('courses.urls')),  # مسارات خاصة بالدورات
+    path('questions/', include('questionnaire.urls')),  # تضمين مسارات questionnaire
+    path('users/', include('users.urls')),  # مسارات المستخدمين
+    path('roadmap/', include('roadmap.urls')),  # مسارات roadmap
+    path('signup/', signup, name='signup'),  # مسار تسجيل المستخدم
+    # API URLs
+    path('api/', include(router.urls)),  # API لجميع المسارات المسجلة في router
+    path('api/auth/', include('rest_framework.urls', namespace='rest_framework')),  # API لتسجيل الدخول والخروج
+    path('questionnaire/quiz_form/', questionnaire_view, name='quiz_form'),  # مسار لـ questionnaire
+    
+]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
