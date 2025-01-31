@@ -11,6 +11,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 # from roadmap.views import AnswerViewSet
 from courses.views import PlaylistViewSet
+from questionnaire.views import AnswerViewSet
 
 
 # Create a router for API viewsets
@@ -18,7 +19,7 @@ router = DefaultRouter()
 # تسجيل UserViewSet و QuestionViewSet في الـ router
 # router.register(r'users', user_views.UserViewSet)
 # router.register(r'questions', QuestionSerializer)
-# router.register(r'answers',AnswerSerializer)
+router.register(r'answers',AnswerViewSet)
 router.register(r'playlist',PlaylistViewSet)
 urlpatterns = [
     path('admin/', admin.site.urls),  # لوحة إدارة Django
