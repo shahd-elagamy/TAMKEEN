@@ -1,14 +1,15 @@
 # models.py
 from django.db import models
 from users.models import CustomUser
+from django.utils import timezone
 
 class Question(models.Model):
     questionid = models.AutoField(primary_key=True)
     trackid = models.IntegerField(null=True, blank=True)
-    question = models.TextField()
+    question = models.TextField(default="Default Question")
     correct_answer = models.TextField(null=True, blank=True)
     explanation = models.TextField(null=True, blank=True)
-    createdat = models.DateTimeField(auto_now_add=True)
+    createdat = models.DateTimeField(default=timezone.now)
     option_a = models.TextField(null=True, blank=True)
     option_b = models.TextField(null=True, blank=True)
     option_c = models.TextField(null=True, blank=True)
