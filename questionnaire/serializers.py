@@ -26,18 +26,18 @@ class AnswerSerializer(serializers.ModelSerializer):
         queryset=Question.objects.all(), 
         source='question'
     )
-    is_correct = serializers.BooleanField(read_only=True)  # اجعل `is_correct` للقراءة فقط
+    is_correct = serializers.BooleanField(read_only=True)  # Make 'is_correct' read-only
 
     class Meta:
         model = Answer
-        fields = ['user', 'questionid', 'answer_text', 'is_correct']
+        fields = ['userid', 'questionid', 'answer', 'is_correct']  # Changed 'answer_text' to 'answer'
 
     def validate(self, data):
         """
-        التحقق من صحة الإجابة بمقارنتها بالإجابة الصحيحة للسؤال.
+        Validate the answer by comparing it with the correct answer for the question.
         """
         question = data['question']
-        if data['answer'].lower() != question.correct_answer.lower():
+        if data['answer'].lower() != question.correct_answer.lower():  # Changed 'answer_text' to 'answer'
             data['is_correct'] = False
         else:
             data['is_correct'] = True
