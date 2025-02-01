@@ -210,8 +210,14 @@ def submit_answers(request):
 #     queryset = Question.objects.all()  # تحديد الـ queryset
 #     serializer_class = QuestionSerializer
 
-# class AnswerViewSet(viewsets.ModelViewSet):
-#     queryset = Answer.objects.all()  # تحديد الـ queryset
-#     serializer_class = AnswerSerializer
-       def perform_create(self, serializer):
-            serializer.save()
+from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
+from .serializers import AnswerSerializer
+
+class AnswerViewSet(viewsets.ModelViewSet):
+    queryset = Answer.objects.all()
+    serializer_class = AnswerSerializer
+    permission_classes = [IsAuthenticated]  # تأكد من أن المستخدم مسجل الدخول
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)  # احفظ المستخدم المسجل حاليًا
