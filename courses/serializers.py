@@ -19,6 +19,7 @@ class PlaylistSerializer(serializers.ModelSerializer):
             'rating',
             'duration',
             'difficultylevel',
+            'track_id',
             
             
         ]
