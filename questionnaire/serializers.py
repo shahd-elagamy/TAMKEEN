@@ -13,8 +13,6 @@
 #     class Meta:
 #         model = Answer
 #         fields = ['userid', 'questionid', 'answer', 'is_correct']
-
-
 from rest_framework import serializers
 from .models import Question, Answer
 
@@ -32,7 +30,7 @@ class AnswerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Answer
-        fields = ['userid', 'questionid', 'answer', 'is_correct']
+        fields = ['user', 'questionid', 'answer_text', 'is_correct']
 
     def validate(self, data):
         """
