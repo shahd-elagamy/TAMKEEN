@@ -1,13 +1,18 @@
 from django.conf import settings
 from django.db import models
+from django.utils import timezone
 
 
 class Tracks(models.Model):
-    name = models.CharField(max_length=255)  # اسم التراك
-    description = models.TextField()  # وصف التراك
+    track_id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=255)
 
     class Meta:
-        db_table = 'tracks'  # اسم الجدول في قاعدة البيانات
+        db_table = 'tracks'
+
+
+
+
 
 
 class Courses(models.Model):
@@ -33,8 +38,6 @@ class Courses(models.Model):
 
 
 
-from django.db import models
-from django.utils import timezone
 class playlist(models.Model):
     video_id = models.IntegerField(primary_key=True, default=1)
     name = models.CharField(max_length=255)
@@ -48,13 +51,15 @@ class playlist(models.Model):
         default='Beginner'
     )
     course = models.ForeignKey(Courses, related_name='playlists', on_delete=models.CASCADE, null=True)
-    created_at = models.DateTimeField(default=timezone.now)  # Ensure this field exists
+    track = models.ForeignKey(Tracks, related_name='playlists', on_delete=models.CASCADE, null=True)  # This field
+    created_at = models.DateTimeField(default=timezone.now)
 
     class Meta:
         db_table = 'playlist'
 
     def __str__(self):
         return self.name
+
 
 
 
