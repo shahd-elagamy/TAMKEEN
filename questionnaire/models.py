@@ -1,15 +1,14 @@
 # models.py
 from django.db import models
 from users.models import CustomUser
-from django.utils import timezone
 
 class Question(models.Model):
     questionid = models.AutoField(primary_key=True)
     trackid = models.IntegerField(null=True, blank=True)
-    question = models.TextField(default="Default Question")
+    question = models.TextField()
     correct_answer = models.TextField(null=True, blank=True)
     explanation = models.TextField(null=True, blank=True)
-    createdat = models.DateTimeField(default=timezone.now)
+    createdat = models.DateTimeField(auto_now_add=True)
     option_a = models.TextField(null=True, blank=True)
     option_b = models.TextField(null=True, blank=True)
     option_c = models.TextField(null=True, blank=True)
@@ -23,17 +22,21 @@ class Question(models.Model):
 
     def __str__(self):
         return self.question
+from django.db import models
+from django.contrib.auth import get_user_model
 
+CustomUser = get_user_model()
 
 class Answer(models.Model):
-    user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)  # Reference to User model
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)  # Reference to Question model
-    answer_text = models.TextField()  # Text of the user's answer
-    is_correct = models.BooleanField(default=False)  # Whether the answer is correct
-    answered_at = models.DateTimeField(auto_now_add=True)  # Automatically set the timestamp when the answer is submitted
+    answerid = models.AutoField(primary_key=True)  # AutoField for primary key
+    userid = models.ForeignKey(CustomUser, on_delete=models.CASCADE, db_column='userid')  
+    question = models.ForeignKey('Question', on_delete=models.CASCADE, db_column='questionid')  
+    answer = models.TextField(db_column='answer')  # Changed field name to 'answer' to match DB schema
+    is_correct = models.BooleanField(default=False, db_column='iscorrect')  
+    answered_at = models.DateTimeField(auto_now_add=True, db_column='answeredat')  
 
     class Meta:
-        db_table = 'useranswers'  # Set the table name for the database
+        db_table = 'useranswers'  # Ensure table name matches the DB schema
 
     def __str__(self):
-        return f"Answer for {self.question.question} by {self.user.username}"
+        return f"Answer for {self.question} by {self.userid}"  # Corrected user reference
