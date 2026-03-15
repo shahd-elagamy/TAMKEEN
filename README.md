@@ -132,6 +132,3 @@ Dr. Nora Alrashidy
 Faculty of Artificial Intelligence – Kafr El-Sheikh University
 
 This project was developed as part of a graduation project focused on inclusive AI-driven education systems.
-
-
-This project was developed as part of a graduation project focused on inclusive AI-driven education systems.
